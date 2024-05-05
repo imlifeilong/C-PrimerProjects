@@ -213,12 +213,63 @@ void PointData()
 	const int* const p4 = &c;
 	// *p4 = d; // 报错
 	// p4 = &d; // 报错 
+}
+
+void PointAndArray() 
+{
+	int array[] = { 1,2,3,4,5 };
+	int* p = array; // p指向array的首地址，即指向第一个元素
 
 
+	cout << "通过索引访问第一个元素："<< array[0] << endl;
+	cout << "通过指针访问第一个元素："<< * p << endl;
+	p++;
+	cout << "通过指针访问第二个元素：" << *p << endl;
 
+	int* p2 = array;
+	int length = sizeof(array) / sizeof(array[0]);
+	for (int i = 0; i < length; i++)
+	{
+		cout << *p2 << endl;
+		p2++;
+	}
 
 }
 
+// 地址传递 接收两个变量的地址， 可以改变实参的值
+void AddressPropagationSwap(int *a, int *b)
+{
+	int tmp = *a; // tmp 存a指向内存地址的值
+	*a = *b;	  // a 所指内存的地址 指向 b 指向的内存地址的值	
+	*b = tmp;	  // b指向内存的地址的值赋值为tmp
+}
+
+
+
+
+void BubbleSortWithPoint(int* array, int length)
+{
+	for (int i = 0; i < length; i++)
+	{
+		for (int j = 0; j < length - i - 1; j++)
+		{
+			if (array[j] > array[j + 1])
+			{
+				int tmp = array[j];
+				array[j] = array[j + 1];
+				array[j + 1] = tmp;
+			}
+		}
+	}
+}
+
+void PrintResult(int* array, int length)
+{
+	for (int i = 0; i < length; i++)
+	{
+		cout << array[i] << " ";
+	}
+}
 
 void ContainerDataTypeMain()
 {
@@ -227,5 +278,19 @@ void ContainerDataTypeMain()
 	//ReverseArray();
 	//BubbleSort();
 	//TwoDimensionalArray();
-	PointData();
+	//PointData();
+	//PointAndArray();
+
+	int a = 10;
+	int b = 20;
+
+	cout << "交换前：" << "a=" << a << " b=" << b << endl;
+	AddressPropagationSwap(&a, &b);
+	cout << "交换后：" << "a=" << a << " b=" << b << endl;
+
+	int array[] = { 12,1,13,4,2,6,8,3 };
+	int length = sizeof(array) / sizeof(array[0]);
+	BubbleSortWithPoint(array, length);
+	PrintResult(array, length);
+
 }
