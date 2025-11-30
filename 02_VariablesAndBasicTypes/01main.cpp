@@ -2,6 +2,7 @@
 #include "02BasicDataType.h"
 #include "03ContainerDataType.h"
 #include "04FunctionsAndClasses.h"
+#include "05Projects.h"
 
 using namespace std;
 
@@ -19,8 +20,12 @@ void main()
 	//BasicDataTypeMain();
 
 	// 容器类型的数据
-	ContainerDataTypeMain();
+	//ContainerDataTypeMain();
 
 	// 函数和类
 	//FunctionsAndClassesMain();
+
+	// 项目
+	ProjectMain();
+
 }

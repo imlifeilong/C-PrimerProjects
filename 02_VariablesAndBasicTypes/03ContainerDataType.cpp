@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 using namespace std;
 
 void ArrayData()
@@ -271,6 +272,211 @@ void PrintResult(int* array, int length)
 	}
 }
 
+
+// 结构体 一些类型的集合，来组成一个自定义的类型
+struct Student
+{
+	string name;
+	int age;
+	float score;
+} student;
+
+
+void StructData()
+{
+	// 结构体赋值的三种方式
+	// 1 创建的时候 struct 关键字可以省略
+	struct stu0;
+
+	struct Student stu1;
+	stu1.name = "李四";
+	stu1.age = 20;
+	stu1.score = 88.6;
+
+	cout << "姓名：" << stu1.name << " 年龄：" << stu1.age << " 分数：" << stu1.score << endl;
+	// 2
+	struct Student stu2 = { "张三", 18, 98.5 };
+	cout << "姓名：" << stu2.name << " 年龄：" << stu2.age << " 分数：" << stu2.score << endl;
+
+	// 3 初始化的时候就定义 student
+	student.name = "王五";
+	student.age = 25;
+	student.score = 86;
+	cout << "姓名：" << student.name << " 年龄：" << student.age << " 分数：" << student.score << endl;
+}
+
+
+void StructArrayData()
+{
+	// 结构体数组
+	Student StudentArray[3] = {
+		{ "李四", 20, 88.6 },
+		{ "张三", 18, 98.5 },
+		{ "王五", 25, 86 },
+	};
+
+	for (int i = 0; i < 3;i++)
+	{
+		cout << "姓名：" << StudentArray[i].name << " 年龄：" << StudentArray[i].age << " 分数：" << StudentArray[i].score << endl;
+	}
+}
+
+void StructPointData()
+{
+	// 结构体指针
+	struct Student stu = { "张三", 18, 98.5 };
+	// s指针指向 stu的地址
+	struct Student* s = &stu;
+	cout << "姓名：" << s->name << " 年龄：" << s->age << " 分数：" << s->score << endl;
+}
+
+struct Teacher 
+{
+	int id;
+	string name;
+	int age;
+	Student student; // 老师所带的学生的结构体
+};
+
+
+struct Teachers
+{
+	string name;
+	Student student[5];
+};
+
+
+
+void allocateMemory(Teachers tchs [], int length)
+{
+	string names = "ABCDE";
+	for (int i = 0; i < length; i++)
+	{
+		tchs[i].name = "teacher_";
+		tchs[i].name += names[i];
+		
+		for (int j = 0; j < 5; j++)
+		{
+			tchs[i].student[j].name = "student_";
+			tchs[i].student[j].name +=names[j];
+			tchs[i].student[j].score =  rand() % 61 + 40; // 随机生成分数
+		}
+	}
+
+}
+
+void printTeachers(Teachers tchs[], int length)
+{
+	for (int i = 0; i < length; i++)
+	{
+		cout << "老师姓名：" << tchs[i].name << endl;
+
+		for (int j = 0; j < 5; j++)
+		{
+			cout << "学生姓名：" << tchs[i].student[j].name << " 学分：" << tchs[i].student[j].score << endl;
+		}
+	}
+}
+void teachersMain()
+{
+	srand((unsigned int)time(NULL)); // 添加随机种子
+	Teachers tchs[3];
+	int length = sizeof(tchs) / sizeof(tchs[0]);
+	allocateMemory(tchs, length);
+	printTeachers(tchs, length);
+}
+
+
+
+
+
+
+void NestedStructData()
+{
+	// 嵌套结构体
+	
+	Teacher teacher;
+	teacher.id = 1000001;
+	teacher.name = "王老师";
+	teacher.age = 33;
+	struct Student stu = { "张三", 18, 98.5 };
+	teacher.student = stu;
+
+	cout << "老师编号：" << teacher.id << " 姓名：" << teacher.name << " 年龄：" << teacher.age << 
+	" 学生的姓名：" << teacher.student.name << " 年龄：" << teacher.student.age << " 分数：" << teacher.student.score << endl;
+
+}
+
+void StructParameterFunction(Student *student)
+{
+	student->age = 50;
+	// 结构体作为函数参数
+	cout << "结构体传参-姓名：" << student->name << " 年龄：" << student->age << " 分数：" << student->score << endl;
+
+
+}
+
+void StructWithConst(const Student *student)
+{
+	// const 防止修改
+	//student->age = 100; // 报错
+	cout << " 学生的姓名：" << student->name << " 年龄：" << student->age << " 分数：" << student->score << endl;
+}
+
+
+struct StructHero
+{
+	string name;
+	int age;
+	string sex;
+};
+
+
+void HeroBubbleSort(struct StructHero hero[], int length)
+{
+	// 数组传参是地址传递，类似python中的列表
+	for (int i = 0; i < length; i++)
+	{
+		for (int j = 0; j < length - i - 1; j++)
+		{
+			if (hero[j].age > hero[j + 1].age)
+			{
+				StructHero tmp = hero[j];
+				hero[j] = hero[j + 1];
+				hero[j + 1] = tmp;
+			}
+		}
+	}
+}
+
+void PrintHero(struct StructHero hero[], int length)
+{
+	for (int i = 0; i < length; i++)
+	{
+		cout << "英雄名：" << hero[i].name << " 年龄：" <<  hero[i].age << " 性别："<< hero[i].sex << endl;
+	}
+}
+
+
+void HeroMain()
+{
+	StructHero hero[] = {
+		{"张三", 14, "男"},
+		{"刘四", 33, "男"},
+		{"关五", 24, "女"},
+		{"赵六", 14, "男"},
+		{"吕无", 16, "男"},
+	};
+
+	int length = sizeof(hero) / sizeof(hero[0]);
+	PrintHero(hero, length);
+	HeroBubbleSort(hero, length);
+
+	cout << "排序后：" << endl;
+	PrintHero(hero, length);
+
+}
+
 void ContainerDataTypeMain()
 {
 	//ArrayData();
@@ -281,16 +487,33 @@ void ContainerDataTypeMain()
 	//PointData();
 	//PointAndArray();
 
-	int a = 10;
-	int b = 20;
+	//int a = 10;
+	//int b = 20;
 
-	cout << "交换前：" << "a=" << a << " b=" << b << endl;
-	AddressPropagationSwap(&a, &b);
-	cout << "交换后：" << "a=" << a << " b=" << b << endl;
+	//cout << "交换前：" << "a=" << a << " b=" << b << endl;
+	//AddressPropagationSwap(&a, &b);
+	//cout << "交换后：" << "a=" << a << " b=" << b << endl;
 
-	int array[] = { 12,1,13,4,2,6,8,3 };
-	int length = sizeof(array) / sizeof(array[0]);
-	BubbleSortWithPoint(array, length);
-	PrintResult(array, length);
+	//int array[] = { 12,1,13,4,2,6,8,3 };
+	//int length = sizeof(array) / sizeof(array[0]);
+	//BubbleSortWithPoint(array, length);
+	//PrintResult(array, length);
+
+	//StructData();
+	//StructArrayData();
+	//StructPointData();
+	//NestedStructData();
+
+	struct Student stu = { "张三", 18, 98.5 };
+	//StructParameterFunction(&stu);
+	//cout << "结构体传参-姓名：" << stu.name << " 年龄：" << stu.age << " 分数：" << stu.score << endl;
+	//StructWithConst(&stu);
+	//teachersMain();
+	HeroMain();
 
 }
+
+
+
+
+
